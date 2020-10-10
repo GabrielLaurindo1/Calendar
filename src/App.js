@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar";
-import { getDaysInMonth, startOfMonth, isEqual } from "date-fns";
+import { getDaysInMonth, startOfMonth } from "date-fns";
+import Modal from "./Components/Modal";
+
 function App() {
   const [date, setDate] = React.useState("");
   const dateParts = date.split("-");
@@ -46,6 +48,7 @@ function App() {
 
   return (
     <>
+      <Modal />
       <input type="date" onChange={(e) => setDate(e.target.value)}></input>
       <Calendar
         date={date}

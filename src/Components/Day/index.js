@@ -1,12 +1,16 @@
 import React from "react";
 import { Card, Wrapper, AddButton, DayNumber, Header } from "./styles";
 import { parsedNumber } from "../../Helpers";
+import { useSelector } from "react-redux";
+import { toggleModal } from "../../store/ducks/modal";
+import { useDispatch } from "react-redux";
+
 export default function Day({ date, selectedMonth, ...props }) {
   const dateParts = date.toString().split(" ");
   const weekDay = dateParts[0];
   const month = dateParts[1];
   const day = dateParts[2];
-
+  const dispatch = useDispatch();
   const months = [
     "",
     "Jan",
@@ -34,7 +38,9 @@ export default function Day({ date, selectedMonth, ...props }) {
           >
             {day}
           </DayNumber>
-          <AddButton weekDay={weekDay}>+</AddButton>
+          <AddButton weekDay={weekDay} onClick={() => dispatch(toggleModal())}>
+            +
+          </AddButton>
         </Header>
       </Card>
     </Wrapper>
