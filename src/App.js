@@ -4,35 +4,55 @@ import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth, isEqual } from "date-fns";
 function App() {
   const [date, setDate] = React.useState("");
-  const x = date.split("-");
-  const selectedMonth = x[1];
-  const selectedYear = x[0];
-  const selecetdDay = x[2];
+  const dateParts = date.split("-");
+  const selectedMonth = dateParts[1];
+  const selectedYear = dateParts[0];
   const hour = "00:00:00";
   const [month, setMonth] = useState([]);
-  const initialDate = startOfMonth(
-    new Date(selectedYear, selectedMonth - 1, 1)
-  ).getDay();
+
+  // DESCOBRIR POR QUE TA VINDO O MÊS POSTERIOR
+  const initialDayWeek =
+    startOfMonth(new Date(selectedYear, selectedMonth - 1, 1)).getDay() + 1;
 
   useEffect(() => {
-    let daysInMonth = getDaysInMonth(
+    let month = [];
+
+    let totalDaysInMonth = getDaysInMonth(
       new Date(selectedYear, selectedMonth - 1, 1)
     );
-    let month = [];
-    for (let day = 1; day <= daysInMonth; day++) {
-      month.push(new Date(`${selectedYear}-${selectedMonth}-${day},${hour}`));
+    let totalDaysInLastMonth = getDaysInMonth(
+      new Date(selectedYear, selectedMonth - 2, 1)
+    );
 
-      if (month.length >= daysInMonth) {
-        setMonth(month);
-      }
+    //PEGANDO DIAS DO ULTIMO MÊS PARA COMPLETAR O GRID
+    for (let i = 1; i < initialDayWeek; i++) {
+      month.unshift(
+        new Date(
+          `${selectedYear}-${selectedMonth - 1}-${
+            totalDaysInLastMonth - (i - 1)
+          },${hour}`
+        )
+      );
     }
+    //DEFININDO O ARRAY QUE CONTEM TODOS OS DIAS A SEREM RENDERIZADOS NO CALENDARIO
+    for (let day = 1; day <= totalDaysInMonth; day++) {
+      month.push(new Date(`${selectedYear}-${selectedMonth}-${day},${hour}`));
+    }
+
+    setMonth(month);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
   return (
     <>
       <input type="date" onChange={(e) => setDate(e.target.value)}></input>
-      <Calendar date={date} month={month} initialDate={initialDate + 1} />
+      <Calendar
+        date={date}
+        month={month}
+        initialDayWeek={initialDayWeek}
+        selectedMonth={selectedMonth}
+      />
     </>
   );
 }

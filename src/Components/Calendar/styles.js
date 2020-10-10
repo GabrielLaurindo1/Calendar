@@ -1,31 +1,27 @@
 import styled from "styled-components";
-
+const gridWidth = "160px";
 export const Wrapper = styled.div``;
 
 export const DateGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 130px);
+  grid-template-columns: repeat(7, ${gridWidth});
   justify-content: center;
 
-  > div {
+  /* > div {
     &:first-child {
-      /* ${(props) => (props.hover ? "padding-left: 15px" : "")}; */
       grid-column: ${(props) => props.initialDate};
     }
-  }
-
-  /* border: 1px solid gray; */
+  } */
 `;
 
 export const WeekGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 130px);
+  grid-template-columns: repeat(7, ${gridWidth});
   justify-content: center;
-  /* border: 1px solid gray; */
 `;
 
 export const WeekDay = styled.div`
-  background-color: blue;
+  background-color: #4e4ee2;
   padding: 5px 10px;
   display: flex;
   color: white;
@@ -33,6 +29,8 @@ export const WeekDay = styled.div`
   align-items: center;
 `;
 
-export const Day = styled.div``;
+export const Day = styled.div`
+  color: ${(props) => (!props.selectedMonth ? "gray" : "")};
+`;
 
 // ${(props) => (props.hover ? "padding-left: 15px" : "")};

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { WeekDay, Wrapper, DateGrid, WeekGrid } from "./styles";
 import Day from "../Day";
-import { startOfMonth, format } from "date-fns";
-export default function Calendar({ date, month, initialDate }) {
+export default function Calendar({ date, month, selectedMonth }) {
   const weekDays = [
     "Sunday",
     "Monday",
@@ -12,13 +11,7 @@ export default function Calendar({ date, month, initialDate }) {
     "Friday",
     "Saturday",
   ];
-  // console.log(month);
-  // console.log(initialDate + 1);
-  // console.log(date);
-  // console.log(startOfMonth(new Date(date)).getDay());
-  // console.log(startOfMonth(new Date(date)).getDay());
-  // console.log(new Date(date));
-
+  console.log(month);
   return (
     <Wrapper>
       <WeekGrid>
@@ -28,9 +21,16 @@ export default function Calendar({ date, month, initialDate }) {
           </WeekDay>
         ))}
       </WeekGrid>
-      <DateGrid initialDate={initialDate}>
+      <DateGrid>
         {month.map((day, i) => {
-          return <Day key={i} indice={i} date={day}></Day>;
+          return (
+            <Day
+              key={i}
+              selectedMonth={selectedMonth}
+              date={day}
+              selectedDate={date}
+            ></Day>
+          );
         })}
       </DateGrid>
     </Wrapper>
