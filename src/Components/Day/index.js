@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Wrapper, AddButton, DayNumber, Header } from "./styles";
-import { parsedNumber } from "../../Helpers";
+import { isTheSelectedMonth } from "../../Helpers";
 import { useSelector } from "react-redux";
-import { toggleModal } from "../../store/ducks/modal";
+import { toggleModal, selectDayToReminder } from "../../store/ducks/modal";
 import { useDispatch } from "react-redux";
 
 export default function Day({ date, selectedMonth, ...props }) {
@@ -10,37 +10,34 @@ export default function Day({ date, selectedMonth, ...props }) {
   const weekDay = dateParts[0];
   const month = dateParts[1];
   const day = dateParts[2];
+  const year = dateParts[3];
   const dispatch = useDispatch();
-  const months = [
-    "",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+
+  const handleNewReminder = () => {
+    dispatch(toggleModal());
+    dispatch(
+      selectDayToReminder({
+        dateString: `${day}/${selectedMonth}/${year}`,
+        dateObject: date,
+      })
+    );
+  };
 
   return (
     <Wrapper>
       <Card weekDay={weekDay}>
         <Header>
-          <DayNumber
-            seletedMonth={
-              month === months[parsedNumber(selectedMonth)] ? true : false
-            }
-          >
+          <DayNumber seletedMonth={isTheSelectedMonth(selectedMonth, month)}>
             {day}
           </DayNumber>
-          <AddButton weekDay={weekDay} onClick={() => dispatch(toggleModal())}>
-            +
-          </AddButton>
+
+          {isTheSelectedMonth(selectedMonth, month) && (
+            <>
+              <AddButton weekDay={weekDay} onClick={() => handleNewReminder()}>
+                +
+              </AddButton>
+            </>
+          )}
         </Header>
       </Card>
     </Wrapper>

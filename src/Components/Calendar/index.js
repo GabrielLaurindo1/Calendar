@@ -11,7 +11,7 @@ export default function Calendar({ date, month, selectedMonth }) {
     "Friday",
     "Saturday",
   ];
-  console.log(month);
+
   return (
     <Wrapper>
       <WeekGrid>

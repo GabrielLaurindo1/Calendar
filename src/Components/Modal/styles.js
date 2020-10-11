@@ -46,10 +46,15 @@ export const CloseButton = styled.button`
   background-color: transparent;
 `;
 
-export const MessageBox = styled.div`
+export const Form = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+`;
+
+export const SpaceBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const Message = styled.h2`
@@ -79,6 +84,15 @@ export const Label = styled.p`
   color: ${color};
 `;
 
+export const InputTime = styled.input`
+  max-width: 75px;
+  cursor: pointer;
+`;
+
+export const Box = styled.div`
+  padding: 20px 0;
+`;
+
 export const Button = styled.button`
   border-radius: ${borderRadius};
   border: ${borderColor};
@@ -89,4 +103,12 @@ export const Button = styled.button`
   background-color: ${(props) =>
     props.background ? props.background : "#FFF"};
   color: ${(props) => (props.color ? props.color : color)};
+  ${(props) =>
+    props.disabled
+      ? `
+          background: gray;
+        `
+      : `
+        ;
+        `};
 `;
