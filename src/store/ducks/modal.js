@@ -1,15 +1,14 @@
 const initialState = {
   open: false,
   selectedDay: {
-    dateString: "",
-    dateObject: new Date(),
-    message: "",
-    time: "",
+    date: "",
   },
   reminders: [
     {
       dateString: "",
       dateObject: "",
+      time: "",
+      message: "",
     },
   ],
 };
@@ -21,9 +20,9 @@ const modalTypes = {
 };
 
 export const toggleModal = () => ({ type: modalTypes.HANDLE_MODAL });
-export const selectDayToReminder = (payload) => ({
+export const selectDayToReminder = (date) => ({
   type: modalTypes.REMINDER_DAY,
-  payload,
+  date,
 });
 export const addReminder = (payload) => ({
   type: modalTypes.ADD_REMINDER,
@@ -37,20 +36,19 @@ export default function reducer(state = initialState, action) {
     case modalTypes.REMINDER_DAY:
       return {
         ...state,
-        selectedDay: {
-          dateString: action.payload.dateString,
-          dateObject: action.payload.dateObject,
-        },
+        selectedDay: action.date,
       };
     case modalTypes.ADD_REMINDER:
-      console.log(action);
       return {
         ...state,
         reminders: [
           ...state.reminders,
           {
-            dateString: state.selectedDay.dateString,
-            dateObject: state.selectedDay.dateObject,
+            dateString: state.selectedDay.date,
+            // new Date(`${selectedYear}-${selectedMonth}-${day},${hour}`)
+            dateObject: new Date(
+              `${state.selectedDay.date},${action.payload.time}`
+            ),
             time: action.payload.time,
             message: action.payload.message,
           },

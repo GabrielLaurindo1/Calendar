@@ -15,6 +15,7 @@ import {
   Button,
   Box,
   Label,
+  Date,
 } from "./styles.js";
 import { toggleModal, addReminder } from "../../store/ducks/modal";
 
@@ -50,9 +51,7 @@ export default function Modal() {
             <Form>
               <SpaceBetween>
                 <Message>Message</Message>
-                <Message>
-                  {selectedDay ? selectedDay.dateString : "123"}
-                </Message>
+                <Date> {selectedDay.date} </Date>
               </SpaceBetween>
               <TextArea
                 maxLength={30}
@@ -62,6 +61,7 @@ export default function Modal() {
               <Label>* maximum 30 characters</Label>
               <Box>
                 <Message>Choose a time for the reminder</Message>
+
                 <InputTime
                   onChange={(e) => setHour(e.target.value)}
                   type="time"

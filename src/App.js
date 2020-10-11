@@ -3,9 +3,9 @@ import "./App.css";
 import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import Modal from "./Components/Modal";
-
+import Reminders from "./Components/Reminders";
 function App() {
-  const [date, setDate] = React.useState("");
+  const [date, setDate] = useState("");
   const dateParts = date.split("-");
   const selectedMonth = dateParts[1];
   const selectedYear = dateParts[0];
@@ -56,6 +56,7 @@ function App() {
         initialDayWeek={initialDayWeek}
         selectedMonth={selectedMonth}
       />
+      <Reminders />
     </>
   );
 }

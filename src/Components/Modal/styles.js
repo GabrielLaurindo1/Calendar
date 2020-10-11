@@ -93,6 +93,15 @@ export const Box = styled.div`
   padding: 20px 0;
 `;
 
+export const Date = styled.div`
+  border: ${borderColor};
+  border-radius: ${borderRadius};
+  color: ${color};
+  padding: 5px;
+  max-width: 100px;
+  margin-bottom: 20px;
+`;
+
 export const Button = styled.button`
   border-radius: ${borderRadius};
   border: ${borderColor};

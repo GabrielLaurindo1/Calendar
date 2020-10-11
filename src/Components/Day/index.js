@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Wrapper, AddButton, DayNumber, Header } from "./styles";
 import { isTheSelectedMonth } from "../../Helpers";
 import { useSelector } from "react-redux";
@@ -12,20 +12,31 @@ export default function Day({ date, selectedMonth, ...props }) {
   const day = dateParts[2];
   const year = dateParts[3];
   const dispatch = useDispatch();
-
+  const [notify, setNotify] = useState(false);
+  const { reminders } = useSelector((state) => state.reminders);
+  // console.log(reminders);
   const handleNewReminder = () => {
     dispatch(toggleModal());
     dispatch(
       selectDayToReminder({
-        dateString: `${day}/${selectedMonth}/${year}`,
-        dateObject: date,
+        date: `${year}/${selectedMonth}/${day}`,
       })
     );
   };
 
+  useEffect(() => {
+    console.log(reminders);
+    reminders.map((reminder) => {
+      if (reminder.dateString === `${year}/${selectedMonth}/${day}`) {
+        setNotify(true);
+      }
+    });
+  }, [day, reminders, selectedMonth, year]);
+
   return (
     <Wrapper>
       <Card weekDay={weekDay}>
+        {notify && <>Notificação!</>}
         <Header>
           <DayNumber seletedMonth={isTheSelectedMonth(selectedMonth, month)}>
             {day}
