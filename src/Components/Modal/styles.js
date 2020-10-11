@@ -102,10 +102,17 @@ export const Date = styled.div`
   margin-bottom: 20px;
 `;
 
+export const SketchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const Button = styled.button`
   border-radius: ${borderRadius};
   border: ${borderColor};
   padding: 10px;
+  max-height: ${(props) => (props.maxHeigth ? props.maxHeigth : "")};
   font-weight: 400;
   cursor: pointer;
   font-size: 15px;

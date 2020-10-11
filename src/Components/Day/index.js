@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card, Wrapper, AddButton, DayNumber, Header } from "./styles";
+import {
+  Card,
+  Wrapper,
+  AddButton,
+  DayNumber,
+  Header,
+  Footer,
+  Reminder,
+} from "./styles";
 import { isTheSelectedMonth } from "../../Helpers";
 import { useSelector } from "react-redux";
 import { toggleModal, selectDayToReminder } from "../../store/ducks/modal";
@@ -12,31 +20,43 @@ export default function Day({ date, selectedMonth, ...props }) {
   const day = dateParts[2];
   const year = dateParts[3];
   const dispatch = useDispatch();
-  const [notify, setNotify] = useState(false);
+  const [notify, setNotify] = useState([]);
+  const stringDate = `${year}/${selectedMonth}/${day}`;
+
   const { reminders } = useSelector((state) => state.reminders);
   // console.log(reminders);
   const handleNewReminder = () => {
     dispatch(toggleModal());
     dispatch(
       selectDayToReminder({
-        date: `${year}/${selectedMonth}/${day}`,
+        date: stringDate,
       })
     );
   };
 
   useEffect(() => {
-    console.log(reminders);
+    let x = [];
     reminders.map((reminder) => {
-      if (reminder.dateString === `${year}/${selectedMonth}/${day}`) {
-        setNotify(true);
+      if (reminder.dateString === stringDate) {
+        // setNotify([...notify, reminder]);
       }
+      return setNotify([...notify, reminder]);
     });
-  }, [day, reminders, selectedMonth, year]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reminders]);
+
+  useEffect(() => {
+    console.log(notify);
+    console.log(stringDate);
+    if (notify.length > 1) {
+      console.log(notify[1].dateString);
+    }
+  }, [notify, stringDate]);
 
   return (
     <Wrapper>
       <Card weekDay={weekDay}>
-        {notify && <>Notificação!</>}
         <Header>
           <DayNumber seletedMonth={isTheSelectedMonth(selectedMonth, month)}>
             {day}
@@ -50,6 +70,19 @@ export default function Day({ date, selectedMonth, ...props }) {
             </>
           )}
         </Header>
+        <Footer>
+          {notify.length > 1 ? (
+            <>
+              {notify.map((notf) => {
+                if (notf.dateString == stringDate) {
+                  return <Reminder color={notf.color} />;
+                }
+              })}
+            </>
+          ) : (
+            ""
+          )}
+        </Footer>
       </Card>
     </Wrapper>
   );

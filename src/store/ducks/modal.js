@@ -9,6 +9,7 @@ const initialState = {
       dateObject: "",
       time: "",
       message: "",
+      color: "",
     },
   ],
 };
@@ -45,7 +46,7 @@ export default function reducer(state = initialState, action) {
           ...state.reminders,
           {
             dateString: state.selectedDay.date,
-            // new Date(`${selectedYear}-${selectedMonth}-${day},${hour}`)
+            color: action.payload.color,
             dateObject: new Date(
               `${state.selectedDay.date},${action.payload.time}`
             ),

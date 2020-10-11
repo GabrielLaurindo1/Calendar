@@ -33,6 +33,9 @@ export const Card = styled.div`
   height: 100%;
   min-height: 100px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   &:hover ${AddButton} {
     display: flex;
   }
@@ -42,4 +45,18 @@ export const Card = styled.div`
 
   color: ${(props) =>
     props.weekDay === "Sun" || props.weekDay === "Sat" ? "#4e4ee2" : ""};
+`;
+
+export const Reminder = styled.div`
+  height: 15px;
+  width: 15px;
+  background-color: ${(props) => props.color};
+  border-radius: 50%;
+  margin: 3px 5px;
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  flex-shrink: 1;
+  flex-wrap: wrap;
 `;

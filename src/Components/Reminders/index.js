@@ -12,7 +12,6 @@ export default function Reminders() {
           <div>{reminder.message}</div>
         </>
       ))}
-      ola
     </>
   );
 }

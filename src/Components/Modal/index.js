@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Wrapper } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
+import { SketchPicker } from "react-color";
 import {
   Header,
   CloseButton,
@@ -16,6 +17,7 @@ import {
   Box,
   Label,
   Date,
+  SketchContainer,
 } from "./styles.js";
 import { toggleModal, addReminder } from "../../store/ducks/modal";
 
@@ -25,16 +27,21 @@ export default function Modal() {
   const { selectedDay } = useSelector((state) => state.toggleModal);
   const [message, setMessage] = useState("");
   const [hour, setHour] = useState("");
-
+  const [color, setColor] = useState("");
   const resetForm = () => {
     setMessage("");
     setHour("");
+    setColor("");
   };
 
   const handleNewReminder = () => {
-    dispatch(addReminder({ time: hour, message: message }));
+    dispatch(addReminder({ time: hour, message: message, color: color }));
     resetForm();
     dispatch(toggleModal());
+  };
+
+  const handleChangeColor = (color, e) => {
+    setColor(color.hex);
   };
 
   return (
@@ -49,6 +56,14 @@ export default function Modal() {
               </CloseButton>
             </Header>
             <Form>
+              <SketchContainer>
+                <Message>Choose a color for the reminder!</Message>
+                <SketchPicker
+                  color={color}
+                  onChangeComplete={(color, e) => handleChangeColor(color, e)}
+                />
+              </SketchContainer>
+
               <SpaceBetween>
                 <Message>Message</Message>
                 <Date> {selectedDay.date} </Date>
