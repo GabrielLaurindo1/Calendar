@@ -8,7 +8,7 @@ import {
   Footer,
   Reminder,
 } from "./styles";
-import { isTheSelectedMonth } from "../../Helpers";
+import { isValidDate } from "../../Helpers";
 import { useSelector } from "react-redux";
 import { toggleModal, selectDayToReminder } from "../../store/ducks/modal";
 import { useDispatch } from "react-redux";
@@ -36,11 +36,11 @@ export default function Day({ date, selectedMonth, ...props }) {
     <Wrapper>
       <Card weekDay={weekDay}>
         <Header>
-          <DayNumber seletedMonth={isTheSelectedMonth(selectedMonth, month)}>
+          <DayNumber validDay={isValidDate(selectedMonth, date)}>
             {day}
           </DayNumber>
 
-          {isTheSelectedMonth(selectedMonth, month) && (
+          {isValidDate(selectedMonth, date) && (
             <>
               <AddButton weekDay={weekDay} onClick={() => handleNewReminder()}>
                 +

@@ -1,3 +1,5 @@
+import { getMonth } from "date-fns";
+
 const months = [
   "",
   "Jan",
@@ -40,11 +42,22 @@ export const parsedNumber = (selectedMonth) => {
 };
 
 //VERIFICA SE OS MESES SELECIONADOS SÃO IGUAIS
-export const isTheSelectedMonth = (selectedMonth, actualMonth) => {
-  if (actualMonth === months[parsedNumber(selectedMonth)]) {
-    return true;
+export const isValidDate = (selectedMonth, date) => {
+  const actualMonth = getMonth(new Date()) + 1;
+  const today = new Date().getDate();
+  const sMonth = getMonth(new Date(date)) + 1;
+  const sDay = dateParts(date).day;
+
+  if (parseInt(actualMonth) > parseInt(selectedMonth)) {
+    return false;
   }
-  return false;
+  if (
+    parseInt(sDay) < parseInt(today) ||
+    parseInt(sMonth) < parseInt(selectedMonth)
+  ) {
+    return false;
+  }
+  return true;
 };
 
 //RECEBE UM OBJETO DATE E RETORNA UM OBJETO COM A DATA PARSEADA

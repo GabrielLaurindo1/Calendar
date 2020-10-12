@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const DayNumber = styled.p`
-  color: ${(props) => (!props.seletedMonth ? "gray" : "")};
+  color: ${(props) => (!props.validDay ? "gray" : "")};
 `;
 
 export const Header = styled.header`

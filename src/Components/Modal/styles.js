@@ -118,7 +118,7 @@ export const Date = styled.div`
 export const SketchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   > h2 {
     padding-bottom: 10px;
   }
