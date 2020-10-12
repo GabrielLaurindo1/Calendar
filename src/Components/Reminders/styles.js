@@ -16,6 +16,7 @@ export const Card = styled.div`
   box-shadow: 0 3px 7px ${borderColor};
   margin: 10px;
   padding: 5px;
+  border-radius: 4px;
   display: flex;
 
   justify-content: space-between;
@@ -31,7 +32,9 @@ export const BoxMessage = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background: ${(props) => props.backgroundColor};
+
+  background: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : "black"};
 `;
 
 export const BackgroundColor = styled.div`
@@ -120,4 +123,15 @@ export const Toolbar = styled.div`
 
 export const Button = styled.div`
   cursor: pointer;
+`;
+
+export const ContainerWeather = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const BoxTemperature = styled.div`
+  display: flex;
+  padding-top: 5px;
+  max-width: 150px;
+  justify-content: space-between;
 `;

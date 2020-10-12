@@ -9,7 +9,9 @@ const initialState = {
       dateObject: "",
       time: "",
       message: "",
-      color: "",
+      color: "black",
+      city: "",
+      weather: "",
     },
   ],
 };
@@ -52,6 +54,8 @@ export default function reducer(state = initialState, action) {
             ),
             time: action.payload.time,
             message: action.payload.message,
+            city: action.payload.city,
+            weather: action.payload.weather[0],
           },
         ],
       };

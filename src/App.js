@@ -21,7 +21,7 @@ function App() {
     startOfMonth(new Date(selectedYear, selectedMonth - 1, 1)).getDay() + 1;
 
   useEffect(() => {
-    setDate("2020-02-01");
+    setDate("2020-10-10");
   }, []);
 
   useEffect(() => {
