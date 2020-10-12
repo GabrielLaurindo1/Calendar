@@ -20,39 +20,17 @@ export default function Day({ date, selectedMonth, ...props }) {
   const day = dateParts[2];
   const year = dateParts[3];
   const dispatch = useDispatch();
-  const [notify, setNotify] = useState([]);
-  const stringDate = `${year}/${selectedMonth}/${day}`;
-
+  const activeDate = `${year}/${selectedMonth}/${day}`;
   const { reminders } = useSelector((state) => state.reminders);
-  // console.log(reminders);
+
   const handleNewReminder = () => {
     dispatch(toggleModal());
     dispatch(
       selectDayToReminder({
-        date: stringDate,
+        date: activeDate,
       })
     );
   };
-
-  useEffect(() => {
-    let x = [];
-    reminders.map((reminder) => {
-      if (reminder.dateString === stringDate) {
-        // setNotify([...notify, reminder]);
-      }
-      return setNotify([...notify, reminder]);
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reminders]);
-
-  useEffect(() => {
-    console.log(notify);
-    console.log(stringDate);
-    if (notify.length > 1) {
-      console.log(notify[1].dateString);
-    }
-  }, [notify, stringDate]);
 
   return (
     <Wrapper>
@@ -71,10 +49,10 @@ export default function Day({ date, selectedMonth, ...props }) {
           )}
         </Header>
         <Footer>
-          {notify.length > 1 ? (
+          {reminders.length > 1 ? (
             <>
-              {notify.map((notf) => {
-                if (notf.dateString == stringDate) {
+              {reminders.map((notf) => {
+                if (notf.dateString === activeDate) {
                   return <Reminder color={notf.color} />;
                 }
               })}

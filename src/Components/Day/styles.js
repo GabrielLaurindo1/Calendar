@@ -25,7 +25,7 @@ export const AddButton = styled.button`
 `;
 
 export const Wrapper = styled.div`
-  border: 1px solid gray;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 `;
 
 export const Card = styled.div`

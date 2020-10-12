@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   background-color: #fff;
   width: 100%;
-  max-width: 500px;
+  max-width: 650px;
 
   border: 1px solid ${borderColor};
   border-radius: ${borderRadius};
@@ -84,13 +84,27 @@ export const Label = styled.p`
   color: ${color};
 `;
 
+export const TimeBox = styled.div`
+  display: flex;
+`;
+
 export const InputTime = styled.input`
-  max-width: 75px;
   cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+`;
+export const Span = styled.span`
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
 `;
 
 export const Box = styled.div`
-  padding: 20px 0;
+  padding: 10px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Date = styled.div`
@@ -99,13 +113,15 @@ export const Date = styled.div`
   color: ${color};
   padding: 5px;
   max-width: 100px;
-  margin-bottom: 20px;
 `;
 
 export const SketchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  > h2 {
+    padding-bottom: 10px;
+  }
 `;
 
 export const Button = styled.button`

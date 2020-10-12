@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Wrapper } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-import { SketchPicker } from "react-color";
+import { TwitterPicker } from "react-color";
 import {
   Header,
   CloseButton,
@@ -12,11 +12,12 @@ import {
   Form,
   Footer,
   InputTime,
-  SpaceBetween,
+  TimeBox,
   Button,
   Box,
   Label,
   Date,
+  Span,
   SketchContainer,
 } from "./styles.js";
 import { toggleModal, addReminder } from "../../store/ducks/modal";
@@ -26,6 +27,7 @@ export default function Modal() {
   const { open } = useSelector((state) => state.toggleModal);
   const { selectedDay } = useSelector((state) => state.toggleModal);
   const [message, setMessage] = useState("");
+  const [city, setCity] = useState("");
   const [hour, setHour] = useState("");
   const [color, setColor] = useState("");
   const resetForm = () => {
@@ -51,37 +53,47 @@ export default function Modal() {
           <Container>
             <Header>
               <Title>Add Reminder</Title>
+
               <CloseButton onClick={() => dispatch(toggleModal())}>
                 X
               </CloseButton>
             </Header>
             <Form>
+              <Box>
+                <Message>Message</Message>
+                <TextArea
+                  maxLength={30}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <Label>* maximum 30 characters</Label>
+              </Box>
+              <Box>
+                <Message>City</Message>
+                <TextArea
+                  maxLength={30}
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </Box>
+              <Box>
+                <Message>Choose a hour for the reminder</Message>
+                <TimeBox>
+                  <InputTime
+                    onChange={(e) => setHour(e.target.value)}
+                    type="time"
+                  />
+                  <Span>-</Span>
+                  <Date> {selectedDay.date} </Date>
+                </TimeBox>
+              </Box>
               <SketchContainer>
                 <Message>Choose a color for the reminder!</Message>
-                <SketchPicker
+                <TwitterPicker
                   color={color}
                   onChangeComplete={(color, e) => handleChangeColor(color, e)}
                 />
               </SketchContainer>
-
-              <SpaceBetween>
-                <Message>Message</Message>
-                <Date> {selectedDay.date} </Date>
-              </SpaceBetween>
-              <TextArea
-                maxLength={30}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <Label>* maximum 30 characters</Label>
-              <Box>
-                <Message>Choose a time for the reminder</Message>
-
-                <InputTime
-                  onChange={(e) => setHour(e.target.value)}
-                  type="time"
-                />
-              </Box>
             </Form>
             <Footer>
               <Button onClick={() => dispatch(toggleModal())}>Close</Button>

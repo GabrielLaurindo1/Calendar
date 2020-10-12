@@ -1,5 +1,5 @@
 import styled from "styled-components";
-const gridWidth = "160px";
+const gridWidth = "135px";
 export const Wrapper = styled.div``;
 
 export const DateGrid = styled.div`

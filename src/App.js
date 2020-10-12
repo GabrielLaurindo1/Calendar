@@ -4,6 +4,10 @@ import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import Modal from "./Components/Modal";
 import Reminders from "./Components/Reminders";
+import { Wrapper, Container } from "./styles";
+import { Title, BoxTitle } from "./Components/Reminders/styles";
+import { dateParts, stringMonth } from "./Helpers";
+
 function App() {
   const [date, setDate] = useState("");
   const dateParts = date.split("-");
@@ -15,6 +19,10 @@ function App() {
   // DESCOBRIR POR QUE TA VINDO O MÊS POSTERIOR
   const initialDayWeek =
     startOfMonth(new Date(selectedYear, selectedMonth - 1, 1)).getDay() + 1;
+
+  useEffect(() => {
+    setDate("2020-02-01");
+  }, []);
 
   useEffect(() => {
     let month = [];
@@ -50,13 +58,20 @@ function App() {
     <>
       <Modal />
       <input type="date" onChange={(e) => setDate(e.target.value)}></input>
-      <Calendar
-        date={date}
-        month={month}
-        initialDayWeek={initialDayWeek}
-        selectedMonth={selectedMonth}
-      />
-      <Reminders />
+      <Wrapper>
+        <Reminders />
+        <Container>
+          <BoxTitle>
+            <Title>{stringMonth(selectedMonth)}</Title>
+          </BoxTitle>
+          <Calendar
+            date={date}
+            month={month}
+            initialDayWeek={initialDayWeek}
+            selectedMonth={selectedMonth}
+          />
+        </Container>
+      </Wrapper>
     </>
   );
 }
