@@ -4,9 +4,11 @@ import "./index.css";
 export default function Loade() {
   return (
     <>
-      asdkoaskod
-      <div class="loader-1 center">
-        <span></span>
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     </>
   );

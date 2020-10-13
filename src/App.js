@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth } from "date-fns";
-import Modal from "./Components/Modal";
+
 import Reminders from "./Components/Reminders";
+import AddReminder from "./Components/Reminders/AddReminder";
 import { Wrapper, Container } from "./styles";
 import { Title, BoxTitle } from "./Components/Reminders/styles";
 import { dateParts, stringMonth } from "./Helpers";
+import EditReminder from "./Components/Reminders/EditReminder";
 
 function App() {
   const [date, setDate] = useState("");
@@ -56,7 +58,8 @@ function App() {
 
   return (
     <>
-      <Modal />
+      <AddReminder />
+      <EditReminder />
       <input type="date" onChange={(e) => setDate(e.target.value)}></input>
       <Wrapper>
         <Reminders />

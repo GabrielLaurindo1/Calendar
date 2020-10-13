@@ -1,7 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { dateParts } from "../../Helpers";
-import { toggleEditReminderModal } from "../../store/ducks/modal";
+import {
+  selectReminder,
+  toggleModal,
+  deleteReminder,
+} from "../../store/ducks/modal";
 import {
   Container,
   Wrapper,
@@ -32,17 +36,21 @@ export default function Reminders() {
     let x = date.split("/");
     let parsedDate = `${x[2]}/${x[1]}`;
     let ret = [];
-    forecast.map((day) => {
-      if (day.date === parsedDate) {
-        ret.push(day);
-        return day;
-      }
-    });
+    if (forecast) {
+      forecast.forEach((day) => {
+        if (day.date === parsedDate) {
+          ret.push(day);
+          return day;
+        }
+      });
+    }
     return ret;
   };
 
-  const handleEditModal = () => {
-    dispatch(toggleEditReminderModal());
+  const handleEditModal = (reminder, i) => {
+    dispatch(toggleModal("edit"));
+    let ret = { reminder: reminder, index: i };
+    dispatch(selectReminder(ret));
   };
 
   return (
@@ -53,7 +61,6 @@ export default function Reminders() {
         </BoxTitle>
         <Container>
           {reminders.map((reminder, i) => {
-            console.log(reminder);
             if (reminder.dateObject) {
               const date = dateParts(reminder.dateObject);
               const weather = getWeather(
@@ -92,14 +99,14 @@ export default function Reminders() {
                         </BoxMessage>
                       </Box>
                       <Toolbar>
-                        <Button onClick={handleEditModal}>
+                        <Button onClick={() => handleEditModal(reminder, i)}>
                           <img
                             alt="Editar"
                             width="20px"
                             src="https://image.flaticon.com/icons/png/512/61/61456.png"
                           />
                         </Button>
-                        <Button>
+                        <Button onClick={() => dispatch(deleteReminder(i))}>
                           <img
                             alt="Excluir"
                             width="20px"

@@ -24,7 +24,7 @@ export default function Day({ date, selectedMonth, ...props }) {
   const { reminders } = useSelector((state) => state.reminders);
 
   const handleNewReminder = () => {
-    dispatch(toggleModal());
+    dispatch(toggleModal("create"));
     dispatch(
       selectDayToReminder({
         date: activeDate,

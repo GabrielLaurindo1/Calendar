@@ -107,7 +107,7 @@ export const Box = styled.div`
   flex-direction: column;
 `;
 
-export const Date = styled.div`
+export const DateLabel = styled.div`
   border: ${borderColor};
   border-radius: ${borderRadius};
   color: ${color};

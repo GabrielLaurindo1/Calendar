@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Wrapper } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { TwitterPicker } from "react-color";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import {
   Header,
   CloseButton,
@@ -17,23 +17,38 @@ import {
   Button,
   Box,
   Label,
-  Date,
+  DateLabel,
   Span,
   SketchContainer,
 } from "./styles.js";
-import { toggleModal, addReminder } from "../../../store/ducks/modal";
+import {
+  toggleModal,
+  addReminder,
+  editReminder,
+} from "../../../store/ducks/modal";
 
 export default function Modal() {
   const dispatch = useDispatch();
   const { open } = useSelector((state) => state.toggleModal);
+  const { typeModal } = useSelector((state) => state.toggleModal);
   const { selectedDay } = useSelector((state) => state.toggleModal);
-  const [message, setMessage] = useState("testee");
+  const [message, setMessage] = useState("tes111teea");
   const [city, setCity] = useState("Campinas");
+  const { selectedReminder } = useSelector((state) => state.reminders);
   const [hour, setHour] = useState("23:50");
   const [color, setColor] = useState("");
-
+  const teste = useSelector((state) => state);
   const API_KEY = 62210108;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeModal === "edit") {
+      setHour(selectedReminder.reminder.time);
+      setCity(selectedReminder.reminder.city);
+      setColor(selectedReminder.reminder.color);
+      setMessage(selectedReminder.reminder.message);
+    }
+  }, [typeModal]);
 
   const getWeather = async (city) => {
     let response = [];
@@ -68,11 +83,14 @@ export default function Modal() {
     setCity("");
   };
 
-  const handleNewReminder = async () => {
+  console.log(teste.toggleModal.reminders);
+  const handleReminder = async () => {
     setLoading(true);
+
+    // console.log(hour, message, color, city, "2020/10/13", new Date());
     try {
       let weather = await getWeather(city);
-      if (weather) {
+      if (typeModal === "create") {
         dispatch(
           addReminder({
             time: hour,
@@ -82,10 +100,26 @@ export default function Modal() {
             weather,
           })
         );
-        resetForm();
-        dispatch(toggleModal());
+      } else {
+        console.log(message);
+        dispatch(
+          editReminder({
+            time: hour,
+            message,
+            color,
+            city,
+            weather,
+            dateString: "2020/10/13",
+            dateObject: new Date(),
+          })
+        );
       }
+
+      resetForm();
+      setLoading(false);
+      dispatch(toggleModal());
     } catch (error) {
+      console.log(error);
       console.log("erro");
       setLoading(false);
     }
@@ -101,8 +135,11 @@ export default function Modal() {
         <Wrapper>
           <Container>
             <Header>
-              <Title>Add Reminder</Title>
-
+              <Title>
+                {typeModal === "create"
+                  ? "Create a new reminder"
+                  : "Edit this reminder"}
+              </Title>
               <CloseButton onClick={() => dispatch(toggleModal())}>
                 X
               </CloseButton>
@@ -129,11 +166,12 @@ export default function Modal() {
                 <Message>Choose a hour for the reminder</Message>
                 <TimeBox>
                   <InputTime
+                    value={hour}
                     onChange={(e) => setHour(e.target.value)}
                     type="time"
                   />
                   <Span>-</Span>
-                  <Date> {selectedDay.date} </Date>
+                  <DateLabel> {selectedDay.date} </DateLabel>
                 </TimeBox>
               </Box>
               <Box>
@@ -148,15 +186,20 @@ export default function Modal() {
               </Box>
             </Form>
             <Footer>
-              <Loader />
-              <Button onClick={() => dispatch(toggleModal())}>Close</Button>
+              <Button onClick={() => dispatch(toggleModal())}>Cancel</Button>
               <Button
                 color="#FFF"
                 background="#4e4ee2"
                 disabled={message.length < 5 || hour === ""}
-                onClick={() => handleNewReminder()}
+                onClick={() => handleReminder()}
               >
-                {loading ? <Loader /> : "Add This Reminder"}
+                {loading ? (
+                  <Loader />
+                ) : typeModal === "create" ? (
+                  "Add This Reminder"
+                ) : (
+                  "Edit Reminder"
+                )}
               </Button>
             </Footer>
           </Container>
