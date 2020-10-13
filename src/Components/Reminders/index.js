@@ -1,5 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { dateParts } from "../../Helpers";
+import { toggleEditReminderModal } from "../../store/ducks/modal";
 import {
   Container,
   Wrapper,
@@ -21,9 +23,10 @@ import {
   ContainerWeather,
   BoxTemperature,
 } from "./styles.js";
-import { dateParts } from "../../Helpers";
+
 export default function Reminders() {
   const { reminders } = useSelector((state) => state.reminders);
+  const dispatch = useDispatch();
 
   const getWeather = (forecast, date) => {
     let x = date.split("/");
@@ -36,6 +39,10 @@ export default function Reminders() {
       }
     });
     return ret;
+  };
+
+  const handleEditModal = () => {
+    dispatch(toggleEditReminderModal());
   };
 
   return (
@@ -85,7 +92,7 @@ export default function Reminders() {
                         </BoxMessage>
                       </Box>
                       <Toolbar>
-                        <Button>
+                        <Button onClick={handleEditModal}>
                           <img
                             alt="Editar"
                             width="20px"

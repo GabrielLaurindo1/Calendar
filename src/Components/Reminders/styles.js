@@ -50,7 +50,7 @@ export const Box = styled.div`
 export const ColorReminder = styled.div`
   height: 15px;
   width: 15px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => (props.color ? props.color : "black")};
   border-radius: 50%;
   margin: 3px 5px 3px 0px;
 `;

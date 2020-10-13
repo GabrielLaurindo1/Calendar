@@ -1,5 +1,6 @@
 const initialState = {
   open: false,
+  editReminderModal: false,
   selectedDay: {
     date: "",
   },
@@ -20,9 +21,15 @@ const modalTypes = {
   HANDLE_MODAL: "@HANDLE/MODAL",
   REMINDER_DAY: "@REMINDER/DAY",
   ADD_REMINDER: "@ADD/REMINDER",
+  TOGGLE_EDIT_REMINDER_MODAL: "@TOGGLE/EDIT_REMINDER_MODAL",
 };
 
 export const toggleModal = () => ({ type: modalTypes.HANDLE_MODAL });
+
+export const toggleEditReminderModal = () => ({
+  type: modalTypes.TOGGLE_EDIT_REMINDER_MODAL,
+});
+
 export const selectDayToReminder = (date) => ({
   type: modalTypes.REMINDER_DAY,
   date,
@@ -59,6 +66,8 @@ export default function reducer(state = initialState, action) {
           },
         ],
       };
+    case modalTypes.TOGGLE_EDIT_REMINDER_MODAL:
+      return { ...state, editReminderModal: !state.editReminderModal };
     default:
       return state;
   }
