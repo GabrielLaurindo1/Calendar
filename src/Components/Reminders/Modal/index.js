@@ -21,6 +21,7 @@ import {
   Span,
   SketchContainer,
 } from "./styles.js";
+import { dateParts } from "../../../Helpers";
 import {
   toggleModal,
   addReminder,
@@ -37,25 +38,58 @@ export default function Modal() {
   const { selectedReminder } = useSelector((state) => state.reminders);
   const [hour, setHour] = useState("23:50");
   const [color, setColor] = useState("");
-  const teste = useSelector((state) => state);
+
   const API_KEY = 62210108;
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState("2020-10-13");
 
   useEffect(() => {
     if (typeModal === "edit") {
+      let dateParts = selectedReminder.reminder.dateString.split("/");
       setHour(selectedReminder.reminder.time);
       setCity(selectedReminder.reminder.city);
       setColor(selectedReminder.reminder.color);
       setMessage(selectedReminder.reminder.message);
+      setDate(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
     }
   }, [typeModal]);
 
+  const getForecast = (forecast, date) => {
+    console.log(forecast, date);
+    let x = date.split("/");
+    let parsedDate = `${x[2]}/${x[1]}`;
+    let ret = [];
+
+    if (forecast) {
+      forecast.forEach((day) => {
+        if (day.date === parsedDate) {
+          ret.push(day);
+        }
+      });
+    }
+    return ret;
+  };
+
+  const parsedDate = (date) => {
+    const dateParts = date.split("-");
+    let day = dateParts[2];
+    let month = dateParts[1];
+    let year = dateParts[0];
+
+    return {
+      dateObject: new Date(`${year},${month},${day}`),
+      dateString: `${year}/${month}/${day}`,
+    };
+  };
+
   const getWeather = async (city) => {
     let response = [];
+    // let url = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city}&format=json-cors&appid=b81bd0ecc553c33243e5e11cce184a41&callback=test`;
     let url = `https://api.hgbrasil.com/weather?format=json-cors&key=${API_KEY}&city_name=${city}`;
     const config = {
       method: "GET",
       mode: "cors",
+
       headers: {
         "Content-Type": "application/json",
       },
@@ -83,13 +117,13 @@ export default function Modal() {
     setCity("");
   };
 
-  console.log(teste.toggleModal.reminders);
   const handleReminder = async () => {
     setLoading(true);
 
-    // console.log(hour, message, color, city, "2020/10/13", new Date());
     try {
       let weather = await getWeather(city);
+
+      console.log(getForecast(weather.forecast, parsedDate(date).dateString));
       if (typeModal === "create") {
         dispatch(
           addReminder({
@@ -97,20 +131,25 @@ export default function Modal() {
             message,
             color,
             city,
-            weather,
+            weather: [
+              getForecast(weather[0].forecast, parsedDate(date).dateString),
+            ],
           })
         );
       } else {
-        console.log(message);
         dispatch(
           editReminder({
             time: hour,
             message,
             color,
             city,
-            weather,
-            dateString: "2020/10/13",
-            dateObject: new Date(),
+            dateString: parsedDate(date).dateString,
+            dateObject: parsedDate(date).dateObject,
+            weather: getForecast(
+              weather[0].forecast,
+              parsedDate(date).dateString
+            ),
+            // new Date(year, month, day, hour)
           })
         );
       }
@@ -120,7 +159,6 @@ export default function Modal() {
       dispatch(toggleModal());
     } catch (error) {
       console.log(error);
-      console.log("erro");
       setLoading(false);
     }
   };
@@ -171,7 +209,12 @@ export default function Modal() {
                     type="time"
                   />
                   <Span>-</Span>
-                  <DateLabel> {selectedDay.date} </DateLabel>
+                  <InputTime
+                    value={date}
+                    type="date"
+                    onChange={(e) => setDate(e.target.value)}
+                  ></InputTime>
+                  {/* <DateLabel> {selectedDay.date} </DateLabel> */}
                 </TimeBox>
               </Box>
               <Box>

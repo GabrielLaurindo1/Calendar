@@ -4,11 +4,10 @@ import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 
 import Reminders from "./Components/Reminders";
-import AddReminder from "./Components/Reminders/AddReminder";
+import Modal from "./Components/Reminders/Modal";
 import { Wrapper, Container } from "./styles";
 import { Title, BoxTitle } from "./Components/Reminders/styles";
 import { dateParts, stringMonth } from "./Helpers";
-import EditReminder from "./Components/Reminders/EditReminder";
 
 function App() {
   const [date, setDate] = useState("");
@@ -58,8 +57,8 @@ function App() {
 
   return (
     <>
-      <AddReminder />
-      <EditReminder />
+      <Modal />
+
       <input type="date" onChange={(e) => setDate(e.target.value)}></input>
       <Wrapper>
         <Reminders />

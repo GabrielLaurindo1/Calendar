@@ -107,14 +107,6 @@ export const Box = styled.div`
   flex-direction: column;
 `;
 
-export const DateLabel = styled.div`
-  border: ${borderColor};
-  border-radius: ${borderRadius};
-  color: ${color};
-  padding: 5px;
-  max-width: 100px;
-`;
-
 export const SketchContainer = styled.div`
   display: flex;
   flex-direction: column;

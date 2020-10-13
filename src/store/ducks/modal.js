@@ -101,12 +101,8 @@ export default function reducer(state = initialState, action) {
     case modalTypes.TOGGLE_EDIT_REMINDER_MODAL:
       return { ...state, editReminderModal: !state.editReminderModal };
     case modalTypes.SELECT_REMINDER:
-      console.log(action);
       return { ...state, selectedReminder: action.payload };
     case modalTypes.EDIT_REMINDER:
-      console.log(state.selectedReminder.index);
-      console.log(state.reminders);
-      console.log(action);
       return {
         ...state,
         reminders: state.reminders.map((content, i) =>

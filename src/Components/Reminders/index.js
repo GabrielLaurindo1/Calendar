@@ -32,21 +32,6 @@ export default function Reminders() {
   const { reminders } = useSelector((state) => state.reminders);
   const dispatch = useDispatch();
 
-  const getWeather = (forecast, date) => {
-    let x = date.split("/");
-    let parsedDate = `${x[2]}/${x[1]}`;
-    let ret = [];
-    if (forecast) {
-      forecast.forEach((day) => {
-        if (day.date === parsedDate) {
-          ret.push(day);
-          return day;
-        }
-      });
-    }
-    return ret;
-  };
-
   const handleEditModal = (reminder, i) => {
     dispatch(toggleModal("edit"));
     let ret = { reminder: reminder, index: i };
@@ -63,11 +48,6 @@ export default function Reminders() {
           {reminders.map((reminder, i) => {
             if (reminder.dateObject) {
               const date = dateParts(reminder.dateObject);
-              const weather = getWeather(
-                reminder.weather.forecast,
-                reminder.dateString
-              );
-
               return (
                 <>
                   <BackgroundColor backgroundColor={reminder.color}>
@@ -82,12 +62,12 @@ export default function Reminders() {
                         <Subtitle borderColor={reminder.color}>
                           {reminder.city} - {reminder.time}
                         </Subtitle>
-                        {weather[0]?.description ? (
+                        {reminder?.weather[0]?.description ? (
                           <ContainerWeather>
-                            <Message>{weather[0].description}</Message>
+                            <Message>{reminder.weather[0].description}</Message>
                             <BoxTemperature>
-                              <Message>Max: {weather[0].max}°</Message>
-                              <Message>Min: {weather[0].min}°</Message>
+                              <Message>Max: {reminder.weather.max}°</Message>
+                              <Message>Min: {reminder.weather.min}°</Message>
                             </BoxTemperature>
                           </ContainerWeather>
                         ) : (
