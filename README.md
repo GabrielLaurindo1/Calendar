@@ -1,5 +1,5 @@
 ### Como rodar o projeto
-Basta clonar o projeto e digitar o comando yarn && yarn start no terminal do diretorio.
+Admitindo que você tenha o node instalado. basta clonar o projeto e digitar o comando yarn && yarn start ou npm install && npm start no terminal do diretorio.
 
 ### Ferramentas e plugins utilizados:
 -Redux / react-redux<br />
