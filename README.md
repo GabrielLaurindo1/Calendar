@@ -17,6 +17,6 @@ Admitindo que você tenha o node instalado. basta clonar o projeto e digitar o c
 *Apagar um ou todos os lembretes do dia<br />
 *Exibir previsão climatica para o dia do lembrete <br />
 
-###APIS utilizadas:
+### APIS utilizadas:
 *https://hgbrasil.com/ para consultas climaticas
 
