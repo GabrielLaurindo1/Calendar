@@ -2,10 +2,10 @@
 Basta clonar o projeto e digitar o comando yarn && yarn start no terminal do diretorio.
 
 ### Ferramentas e plugins utilizados:
--Redux / react-redux
--React-Color
--Date-fns
--styled-components
+-Redux / react-redux<br />
+-React-Color<br />
+-Date-fns<br />
+-styled-components<br />
 
 
 ### Funcionalidades:
