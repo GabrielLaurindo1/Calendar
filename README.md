@@ -5,7 +5,7 @@ Basta clonar o projeto e digitar o comando yarn && yarn start no terminal do dir
 -Redux / react-redux<br />
 -React-Color<br />
 -Date-fns<br />
--styled-components<br />
+-Styled-components<br />
 
 
 ### Funcionalidades:
