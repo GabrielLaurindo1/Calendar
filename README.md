@@ -9,10 +9,10 @@ Basta clonar o projeto e digitar o comando yarn && yarn start no terminal do dir
 
 
 ### Funcionalidades:
-*Cria calendario a partir de data recebida por input
-*Cria um lembrete para a data e hora selecionada
-*Possibilidade de adicionar varios lembretes no mesmo dia
-*Editar cor do lembrete
-*Editar mensagem e dia/hora do lembrete
-*Apagar um ou todos os lembretes do dia
+*Cria calendario a partir de data recebida por input <br />
+*Cria um lembrete para a data e hora selecionada<br />
+*Possibilidade de adicionar varios lembretes no mesmo dia<br />
+*Editar cor do lembrete<br />
+*Editar mensagem e dia/hora do lembrete<br />
+*Apagar um ou todos os lembretes do dia<br />
 
