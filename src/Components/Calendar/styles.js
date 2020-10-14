@@ -6,12 +6,6 @@ export const DateGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(7, ${gridWidth});
   justify-content: center;
-
-  /* > div {
-    &:first-child {
-      grid-column: ${(props) => props.initialDate};
-    }
-  } */
 `;
 
 export const WeekGrid = styled.div`
@@ -32,5 +26,3 @@ export const WeekDay = styled.div`
 export const Day = styled.div`
   color: ${(props) => (!props.selectedMonth ? "gray" : "")};
 `;
-
-// ${(props) => (props.hover ? "padding-left: 15px" : "")};

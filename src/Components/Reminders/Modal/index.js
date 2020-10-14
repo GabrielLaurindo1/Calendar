@@ -26,7 +26,7 @@ import {
   toggleModal,
   addReminder,
   editReminder,
-} from "../../../store/ducks/modal";
+} from "../../../store/ducks/calendar";
 
 export default function Modal() {
   const API_KEY = 62210108;

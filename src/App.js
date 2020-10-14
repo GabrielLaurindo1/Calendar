@@ -6,6 +6,7 @@ import { getMonth } from "date-fns";
 
 import Reminders from "./Components/Reminders";
 import Modal from "./Components/Reminders/Modal";
+import ModalDelete from "./Components/Reminders/DeleteReminder";
 import { Wrapper, Container, Box } from "./styles";
 import { Title, BoxTitle } from "./Components/Reminders/styles";
 import { stringMonth } from "./Helpers";
@@ -63,7 +64,7 @@ function App() {
   return (
     <>
       <Modal />
-
+      <ModalDelete />
       <Wrapper>
         <Box>
           <InputTime

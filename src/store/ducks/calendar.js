@@ -1,6 +1,7 @@
 const initialState = {
   open: false,
   typeModal: "",
+  openModalDelete: false,
   editReminderModal: false,
   selectedDay: {
     date: "",
@@ -19,7 +20,7 @@ const initialState = {
   ],
 };
 
-const modalTypes = {
+const calendarTypes = {
   HANDLE_MODAL: "@HANDLE/MODAL",
   SELECT_DAY_REMINDER: "@SELECT/DAY_TO_REMINDER",
   SELECT_REMINDER: "@SELECT/REMINDER",
@@ -27,60 +28,67 @@ const modalTypes = {
   EDIT_REMINDER: "@EDIT/REMINDER",
   TOGGLE_EDIT_REMINDER_MODAL: "@TOGGLE/EDIT_REMINDER_MODAL",
   DELETE_REMINDER: "@DELETE/REMINDER",
+  DELETE_REMINDERS_DAY: "@DELETE/ALL_REMINDERS",
+  TOGGLE_DELETE_MODAL: "@TOGGLE/DELETE_MODAL",
 };
 
 export const deleteReminder = (index) => ({
-  type: modalTypes.DELETE_REMINDER,
+  type: calendarTypes.DELETE_REMINDER,
   index,
 });
 
 export const editReminder = (reminder) => ({
-  type: modalTypes.EDIT_REMINDER,
+  type: calendarTypes.EDIT_REMINDER,
   reminder,
 });
 
 export const toggleModal = (typeModal) => ({
-  type: modalTypes.HANDLE_MODAL,
+  type: calendarTypes.HANDLE_MODAL,
   typeModal,
 });
 
 export const selectReminder = (payload) => ({
-  type: modalTypes.SELECT_REMINDER,
+  type: calendarTypes.SELECT_REMINDER,
   payload,
 });
 
-export const toggleEditReminderModal = () => ({
-  type: modalTypes.TOGGLE_EDIT_REMINDER_MODAL,
+export const toggleModalDelete = () => ({
+  type: calendarTypes.TOGGLE_DELETE_MODAL,
 });
 
 export const selectDayToReminder = (date) => ({
-  type: modalTypes.SELECT_DAY_REMINDER,
+  type: calendarTypes.SELECT_DAY_REMINDER,
   date,
 });
 export const addReminder = (payload) => ({
-  type: modalTypes.ADD_REMINDER,
+  type: calendarTypes.ADD_REMINDER,
   payload,
+});
+
+export const deleteAllReminders = (date) => ({
+  type: calendarTypes.DELETE_REMINDERS_DAY,
+  date,
 });
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case modalTypes.SELECT_DAY_REMINDER:
+    case calendarTypes.SELECT_DAY_REMINDER:
       return {
         ...state,
         selectedDay: action.date,
       };
-    case modalTypes.HANDLE_MODAL:
+    case calendarTypes.HANDLE_MODAL:
       return {
         ...state,
         open: !state.open,
         typeModal: action.typeModal,
       };
-    case modalTypes.REMINDER_DAY:
+    case calendarTypes.REMINDER_DAY:
       return {
         ...state,
         selectedDay: action.date,
       };
-    case modalTypes.ADD_REMINDER:
+    case calendarTypes.ADD_REMINDER:
       return {
         ...state,
         reminders: [
@@ -96,22 +104,29 @@ export default function reducer(state = initialState, action) {
           },
         ],
       };
-    case modalTypes.TOGGLE_EDIT_REMINDER_MODAL:
-      return { ...state, editReminderModal: !state.editReminderModal };
-    case modalTypes.SELECT_REMINDER:
+    case calendarTypes.TOGGLE_DELETE_MODAL:
+      return { ...state, openModalDelete: !state.openModalDelete };
+    case calendarTypes.SELECT_REMINDER:
       return { ...state, selectedReminder: action.payload };
-    case modalTypes.EDIT_REMINDER:
+    case calendarTypes.EDIT_REMINDER:
       return {
         ...state,
         reminders: state.reminders.map((content, i) =>
           i === state.selectedReminder.index ? action.reminder : content
         ),
       };
-    case modalTypes.DELETE_REMINDER:
+    case calendarTypes.DELETE_REMINDER:
       return {
         ...state,
         reminders: state.reminders.map((content, i) =>
           i === action.index ? [] : content
+        ),
+      };
+    case calendarTypes.DELETE_REMINDERS_DAY:
+      return {
+        ...state,
+        reminders: state.reminders.map((content) =>
+          state.selectedDay.date === content.dateString ? [] : content
         ),
       };
     default:

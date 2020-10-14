@@ -6,7 +6,7 @@ import {
   selectReminder,
   toggleModal,
   deleteReminder,
-} from "../../store/ducks/modal";
+} from "../../store/ducks/calendar";
 
 import {
   Container,
@@ -29,7 +29,7 @@ import {
   BoxTemperature,
 } from "./styles.js";
 
-import { Button } from "../Modal/styles";
+import { Button } from "./Modal/styles";
 
 export default function Reminders() {
   const { reminders } = useSelector((state) => state.reminders);

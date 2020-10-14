@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React from "react";
 import { WeekDay, Wrapper, DateGrid, WeekGrid } from "./styles";
 import Day from "../Day";
 export default function Calendar({ date, month, selectedMonth }) {
@@ -29,7 +29,7 @@ export default function Calendar({ date, month, selectedMonth }) {
               selectedMonth={selectedMonth}
               date={day}
               selectedDate={date}
-            ></Day>
+            />
           );
         })}
       </DateGrid>
