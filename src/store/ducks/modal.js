@@ -86,11 +86,9 @@ export default function reducer(state = initialState, action) {
         reminders: [
           ...state.reminders,
           {
-            dateString: state.selectedDay.date,
+            dateString: action.payload.dateString,
             color: action.payload.color,
-            dateObject: new Date(
-              `${state.selectedDay.date},${action.payload.time}`
-            ),
+            dateObject: action.payload.dateObject,
             time: action.payload.time,
             message: action.payload.message,
             city: action.payload.city,

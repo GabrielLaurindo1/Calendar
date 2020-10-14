@@ -3,6 +3,7 @@ import { Wrapper } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { TwitterPicker } from "react-color";
 import Loader from "../../Loader";
+import { getMonth } from "date-fns";
 import {
   Header,
   CloseButton,
@@ -17,11 +18,10 @@ import {
   Button,
   Box,
   Label,
-  DateLabel,
   Span,
   SketchContainer,
 } from "./styles.js";
-import { dateParts } from "../../../Helpers";
+
 import {
   toggleModal,
   addReminder,
@@ -29,19 +29,25 @@ import {
 } from "../../../store/ducks/modal";
 
 export default function Modal() {
-  const dispatch = useDispatch();
-  const { open } = useSelector((state) => state.toggleModal);
-  const { typeModal } = useSelector((state) => state.toggleModal);
-  const { selectedDay } = useSelector((state) => state.toggleModal);
-  const [message, setMessage] = useState("tes111teea");
-  const [city, setCity] = useState("Campinas");
-  const { selectedReminder } = useSelector((state) => state.reminders);
-  const [hour, setHour] = useState("23:50");
-  const [color, setColor] = useState("");
-
   const API_KEY = 62210108;
+
+  const dispatch = useDispatch();
+
+  const { open, selectedDay } = useSelector((state) => state.toggleModal);
+  const { typeModal } = useSelector((state) => state.toggleModal);
+  const { selectedReminder } = useSelector((state) => state.reminders);
+
+  const [message, setMessage] = useState("");
+  const [city, setCity] = useState("");
+  const [hour, setHour] = useState("");
+  const [color, setColor] = useState("");
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState("2020-10-13");
+  const [date, setDate] = useState("");
+
+  //YYYY-MM-DD
+  const minDateInput = `${new Date().getFullYear()}-${
+    getMonth(new Date()) + 1
+  }-${new Date().getDate()}`;
 
   useEffect(() => {
     if (typeModal === "edit") {
@@ -51,11 +57,16 @@ export default function Modal() {
       setColor(selectedReminder.reminder.color);
       setMessage(selectedReminder.reminder.message);
       setDate(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
+    } else {
+      if (selectedDay.date) {
+        let dateParts = selectedDay.date.split("/");
+        setDate(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
+      }
     }
-  }, [typeModal]);
+  }, [typeModal, selectedDay]);
 
+  //RECEBE UM ARRAY DE CLIMAS E A DATA DESEJADA E RETORNA O CLIMA DA DATA ESCOLHIDA
   const getForecast = (forecast, date) => {
-    console.log(forecast, date);
     let x = date.split("/");
     let parsedDate = `${x[2]}/${x[1]}`;
     let ret = [];
@@ -70,6 +81,7 @@ export default function Modal() {
     return ret;
   };
 
+  //RECEBE DATA COM FORMATO YYYY-MM-DD E DEVOLVE UM OBJETO DATE E UM YYYY/MM/DD
   const parsedDate = (date) => {
     const dateParts = date.split("-");
     let day = dateParts[2];
@@ -82,9 +94,9 @@ export default function Modal() {
     };
   };
 
+  //REQUISIÇÃO ASSINCRONA NA API PARA CAPTURAR O CLIMA DA CIDADE NO DIA DO EVENTO
   const getWeather = async (city) => {
     let response = [];
-    // let url = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city}&format=json-cors&appid=b81bd0ecc553c33243e5e11cce184a41&callback=test`;
     let url = `https://api.hgbrasil.com/weather?format=json-cors&key=${API_KEY}&city_name=${city}`;
     const config = {
       method: "GET",
@@ -119,11 +131,9 @@ export default function Modal() {
 
   const handleReminder = async () => {
     setLoading(true);
-
     try {
       let weather = await getWeather(city);
 
-      console.log(getForecast(weather.forecast, parsedDate(date).dateString));
       if (typeModal === "create") {
         dispatch(
           addReminder({
@@ -131,6 +141,8 @@ export default function Modal() {
             message,
             color,
             city,
+            dateString: parsedDate(date).dateString,
+            dateObject: parsedDate(date).dateObject,
             weather: [
               getForecast(weather[0].forecast, parsedDate(date).dateString),
             ],
@@ -161,10 +173,6 @@ export default function Modal() {
       console.log(error);
       setLoading(false);
     }
-  };
-
-  const handleChangeColor = (color, e) => {
-    setColor(color.hex);
   };
 
   return (
@@ -212,9 +220,9 @@ export default function Modal() {
                   <InputTime
                     value={date}
                     type="date"
+                    min={minDateInput}
                     onChange={(e) => setDate(e.target.value)}
                   ></InputTime>
-                  {/* <DateLabel> {selectedDay.date} </DateLabel> */}
                 </TimeBox>
               </Box>
               <Box>
@@ -222,7 +230,7 @@ export default function Modal() {
                   <Message>Choose a color for the reminder!</Message>
                   <TwitterPicker
                     color={color}
-                    onChangeComplete={(color, e) => handleChangeColor(color, e)}
+                    onChangeComplete={(color) => setColor(color.hex)}
                   />
                   <Label>* If no color is chosen, black will be used.</Label>
                 </SketchContainer>
@@ -233,7 +241,7 @@ export default function Modal() {
               <Button
                 color="#FFF"
                 background="#4e4ee2"
-                disabled={message.length < 5 || hour === ""}
+                disabled={hour === ""}
                 onClick={() => handleReminder()}
               >
                 {loading ? (

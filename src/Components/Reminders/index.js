@@ -1,11 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { dateParts } from "../../Helpers";
+
 import {
   selectReminder,
   toggleModal,
   deleteReminder,
 } from "../../store/ducks/modal";
+
 import {
   Container,
   Wrapper,
@@ -23,10 +25,11 @@ import {
   Toolbar,
   Box,
   Title,
-  Button,
   ContainerWeather,
   BoxTemperature,
 } from "./styles.js";
+
+import { Button } from "../Modal/styles";
 
 export default function Reminders() {
   const { reminders } = useSelector((state) => state.reminders);
@@ -50,8 +53,8 @@ export default function Reminders() {
               const date = dateParts(reminder.dateObject);
               return (
                 <>
-                  <BackgroundColor backgroundColor={reminder.color}>
-                    <Card key={i}>
+                  <BackgroundColor backgroundColor={reminder.color} key={i}>
+                    <Card>
                       <Box>
                         <Header borderColor={reminder.color}>
                           <Date>
@@ -66,8 +69,8 @@ export default function Reminders() {
                           <ContainerWeather>
                             <Message>{reminder.weather[0].description}</Message>
                             <BoxTemperature>
-                              <Message>Max: {reminder.weather.max}°</Message>
-                              <Message>Min: {reminder.weather.min}°</Message>
+                              <Message>Max: {reminder.weather[0].max}°</Message>
+                              <Message>Min: {reminder.weather[0].min}°</Message>
                             </BoxTemperature>
                           </ContainerWeather>
                         ) : (

@@ -9,3 +9,9 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.3);
 `;
+
+export const Box = styled.div`
+  max-width: 290px;
+  width: 100%;
+  margin-bottom: 10px;
+`;

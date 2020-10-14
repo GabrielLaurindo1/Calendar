@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Calendar from "./Components/Calendar";
 import { getDaysInMonth, startOfMonth } from "date-fns";
+import { getMonth } from "date-fns";
 
 import Reminders from "./Components/Reminders";
 import Modal from "./Components/Reminders/Modal";
-import { Wrapper, Container } from "./styles";
+import { Wrapper, Container, Box } from "./styles";
 import { Title, BoxTitle } from "./Components/Reminders/styles";
-import { dateParts, stringMonth } from "./Helpers";
+import { stringMonth } from "./Helpers";
+import { InputTime } from "./Components/Reminders/Modal/styles.js";
 
 function App() {
   const [date, setDate] = useState("");
@@ -16,13 +18,16 @@ function App() {
   const selectedYear = dateParts[0];
   const hour = "00:00:00";
   const [month, setMonth] = useState([]);
+  const today = `${new Date().getFullYear()}-${
+    getMonth(new Date()) + 1
+  }-${new Date().getDate()}`;
 
-  // DESCOBRIR POR QUE TA VINDO O MÊS POSTERIOR
   const initialDayWeek =
     startOfMonth(new Date(selectedYear, selectedMonth - 1, 1)).getDay() + 1;
 
   useEffect(() => {
-    setDate("2020-10-10");
+    setDate(today);
+    console.log(today, date);
   }, []);
 
   useEffect(() => {
@@ -59,9 +64,17 @@ function App() {
     <>
       <Modal />
 
-      <input type="date" onChange={(e) => setDate(e.target.value)}></input>
       <Wrapper>
-        <Reminders />
+        <Box>
+          <InputTime
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            style={{ width: "100%", marginBottom: "10px" }}
+          />
+          <Reminders />
+        </Box>
+
         <Container>
           <BoxTitle>
             <Title>{stringMonth(selectedMonth)}</Title>

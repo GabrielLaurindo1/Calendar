@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   width: 100%;
   border: ${borderColor};
   height: 100%;
+  position: relative;
 `;
 
 export const Card = styled.div`
@@ -32,7 +33,6 @@ export const BoxMessage = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-
   background: ${(props) =>
     props.backgroundColor ? props.backgroundColor : "black"};
 `;
